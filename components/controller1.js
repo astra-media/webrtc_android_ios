@@ -6,6 +6,7 @@ const Controller1 = () => {
 
     const button1 = () => {
         setButton1State(!button1State)
+        console.log('button pressed');
     }
 
   return(
