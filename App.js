@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet} from 'react-native';
-import Control from './components/controller1';
 import WebConnection from './components/WebConnection';
 
 const App = () => {
   return(
-    <View style = {styles.container}>
-      <Text style = {styles.text}>Controller Prototype</Text>
+    <View style={styles.container}>
+      {/* <Text style = {styles.title}>Controller Prototype</Text> */}
+      <Text style={styles.text}>Please copy your offer below to generate answer.{"\n"}
+      Once connected you should be able to send & receive data through "datachannel".
+      </Text>
       {/* <Control/> */}
       <WebConnection/>
     </View>
@@ -15,12 +17,12 @@ const App = () => {
 
 const styles = StyleSheet.create({
   container:{
-    flex: 1, 
-    alignItems: 'center'
   },
+
   text:{
-    paddingBottom: 20,
-    fontSize: 24
+    fontSize: 12,
+    textAlign: "center",
+
   }
 })
 

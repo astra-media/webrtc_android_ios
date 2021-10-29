@@ -18,7 +18,7 @@ const pc = new RTCPeerConnection(configuration);
 const WebConnection = () => {
 
     const [description, setDescription] = useState();
-    const [message, setMessage] = useState('no message');
+    const [message, setMessage] = useState('');
     const [sMessage, setSMessage] = useState('no Message');
 
     const setRemoteDescription = async () => {
@@ -28,7 +28,7 @@ const WebConnection = () => {
             pc.createAnswer().then(desc => {
                 pc.setLocalDescription(desc).then(()=> {
                     //generate answer
-                    console.log(JSON.stringify(pc.localDescription));
+                    console.log(JSON.stringify(desc))
                 })
             });
             });
@@ -64,45 +64,61 @@ const WebConnection = () => {
 
 
     return(
-    <View>
-    <Text>WebRTC</Text>
+    <View style={styles.container}>
+    <Text style={styles.text}>WebRTC Connection</Text>
     
     {/* offer from remote */}
     <TextInput style={styles.input}
     placeholder = "Enter your offer"
     onChangeText = {setDescription}
     />
-    <TouchableOpacity onPress={submitButton}>
-        <Text style={styles.button} >Generate Answer</Text>
+    <TouchableOpacity style={styles.button} onPress={submitButton}>
+        <Text>Generate Answer to Console</Text>
     </TouchableOpacity>
     
     {/* messages from remote */}
-    <Text>Message from remote</Text>
-    <Text>{message}</Text>
+    <Text style={styles.remoteMessage}>Remote Messages:{"\n"}{message}</Text>
 
     {/* Send New Message  */}
-    <Text>Send Message</Text>
+    <Text style={styles.text}>Send Messages to Remote</Text>
     <TextInput style={styles.input}
     placeholder = "new message"
     onChangeText = {setSMessage}
     />
-    <TouchableOpacity onPress={sendMessage}>
-        <Text style={styles.button}>Send</Text>
+    <TouchableOpacity style={styles.button} onPress={sendMessage}>
+        <Text>Send</Text>
     </TouchableOpacity>
     </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+    },
     input: {
       height: 40,
       margin: 12,
       borderWidth: 1,
       padding: 10,
     },
-    button: {
+    text: {
         fontSize: 20,
+        padding: 10,
+        fontWeight: 'bold'
     },
+
+    button: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10,
+    },
+
+    remoteMessage: {
+        fontSize: 20,
+        color: 'red',
+        padding: 10,
+    }
 })
 
 export default WebConnection; 
