@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
-
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import {
     RTCPeerConnection,
     RTCIceCandidate,
@@ -19,7 +19,8 @@ const WebConnection = () => {
 
     const [description, setDescription] = useState();
     const [message, setMessage] = useState('');
-    const [sMessage, setSMessage] = useState('no Message');
+    const [sMessage, setSMessage] = useState('');
+    const [answer, setAnswer] = useState('Enter your offer first')
 
     const setRemoteDescription = async () => {
         const remoteDesc = new RTCSessionDescription(JSON.parse(description));
@@ -28,7 +29,8 @@ const WebConnection = () => {
             pc.createAnswer().then(desc => {
                 pc.setLocalDescription(desc).then(()=> {
                     //generate answer
-                    console.log(JSON.stringify(desc))
+                    setAnswer(JSON.stringify(desc));
+                    console.log(JSON.stringify(desc));
                 })
             });
             });
@@ -61,10 +63,13 @@ const WebConnection = () => {
         dataChannel.send(sMessage);
     }
 
-
+    const copyAnswer = () =>{
+        Clipboard.setString(answer);
+    }
 
     return(
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+    <ScrollView>
     <Text style={styles.text}>WebRTC Connection</Text>
     
     {/* offer from remote */}
@@ -73,8 +78,12 @@ const WebConnection = () => {
     onChangeText = {setDescription}
     />
     <TouchableOpacity style={styles.button} onPress={submitButton}>
-        <Text>Generate Answer to Console</Text>
+        <Text>Generate Answer</Text>
     </TouchableOpacity>
+    
+    {/* view and copy answer */}
+    <Text style={styles.answerText}>{answer}</Text>
+    <TouchableOpacity style={styles.button} onPress={copyAnswer}><Text>Copy Answer</Text></TouchableOpacity>
     
     {/* messages from remote */}
     <Text style={styles.remoteMessage}>Remote Messages:{"\n"}{message}</Text>
@@ -88,13 +97,15 @@ const WebConnection = () => {
     <TouchableOpacity style={styles.button} onPress={sendMessage}>
         <Text>Send</Text>
     </TouchableOpacity>
-    </View>
+    </ScrollView>
+    </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
+        margin: 10,
     },
     input: {
       height: 40,
@@ -107,11 +118,18 @@ const styles = StyleSheet.create({
         padding: 10,
         fontWeight: 'bold'
     },
+    answerText:{
+        fontSize: 12,
+        borderWidth: 2,
+        padding: 10
+    },
 
     button: {
     alignItems: "center",
     backgroundColor: "#DDDDDD",
     padding: 10,
+    marginTop: 10,
+    marginBottom: 10
     },
 
     remoteMessage: {
