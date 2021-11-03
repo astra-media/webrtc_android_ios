@@ -1,3 +1,1 @@
-The Goal of this project is to create an app that sends data Real Time between devices using internet. 
-This Controller GUI project App demostrate how we can send data between devices by using webRTC. 
-This is a very simplified example of webRTC in react-native.
+The goal of this project is to demonstrate how we can establish real-time connection between devices. This is the android/ios version of webRTC example build with react-native. This UI will let your connect to my webRTC for browser https://github.com/zephyr-astra/webrtc-browser by exchanging generated offer/answer. You can send the offer/answer through any medium (email/messages) between devices. Once connected they will let you send and receive messages real time over the internet. 
